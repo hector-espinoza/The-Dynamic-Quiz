@@ -1,0 +1,5 @@
+{
+  "name": "The Dynamic Quiz",
+  "description": "A quiz app to prepare for any exam, it loads a metadata.json file which specifies the categories to test for and their weights, it also loads a questions.json file with the actual questions and answers.",
+  "requestFramePermissions": []
+}

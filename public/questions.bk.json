@@ -1,0 +1,226 @@
+[
+  {
+    "id": "m1",
+    "category": "mammals",
+    "level": 1,
+    "text": "What is the fastest land animal?",
+    "options": [
+      "Lion",
+      "Cheetah",
+      "Leopard",
+      "Horse"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "The cheetah is the fastest land animal, capable of reaching speeds up to 70 mph (112 km/h) in short bursts."
+  },
+  {
+    "id": "m2",
+    "category": "mammals",
+    "level": 1,
+    "text": "Which mammal is known to be the only one capable of true sustained flight?",
+    "options": [
+      "Flying Squirrel",
+      "Bat",
+      "Lemur",
+      "Sugar Glider"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Bats are the only mammals capable of true and sustained flight. Other mammals like flying squirrels can only glide."
+  },
+  {
+    "id": "m3",
+    "category": "mammals",
+    "level": 2,
+    "text": "What is the largest mammal in the world?",
+    "options": [
+      "African Elephant",
+      "Blue Whale",
+      "Giraffe",
+      "Hippopotamus"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "The blue whale is the largest mammal, and indeed the largest known animal to have ever existed."
+  },
+  {
+    "id": "m4",
+    "category": "mammals",
+    "level": 2,
+    "text": "How many compartments does a cow's stomach have?",
+    "options": [
+      "One",
+      "Two",
+      "Three",
+      "Four"
+    ],
+    "correctAnswerIndex": 3,
+    "explanation": "A cow has a four-compartment stomach (rumen, reticulum, omasum, and abomasum) to help digest tough plant matter."
+  },
+  {
+    "id": "b1",
+    "category": "birds",
+    "level": 1,
+    "text": "Which bird is a universal symbol of peace?",
+    "options": [
+      "Eagle",
+      "Dove",
+      "Swan",
+      "Owl"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "The dove, often depicted with an olive branch, is a widely recognized symbol of peace."
+  },
+  {
+    "id": "b2",
+    "category": "birds",
+    "level": 1,
+    "text": "What is the largest living bird species?",
+    "options": [
+      "Emu",
+      "Albatross",
+      "Ostrich",
+      "Emperor Penguin"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "The ostrich is the largest and heaviest living bird species, native to Africa."
+  },
+  {
+    "id": "b3",
+    "category": "birds",
+    "level": 2,
+    "text": "Which bird is known for its exceptional ability to mimic human speech?",
+    "options": [
+      "Crow",
+      "Parrot",
+      "Woodpecker",
+      "Hummingbird"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "Parrots, particularly species like the African Grey, are famous for their ability to mimic human speech and other sounds."
+  },
+  {
+    "id": "b4",
+    "category": "birds",
+    "level": 2,
+    "text": "What is a group of crows commonly called?",
+    "options": [
+      "A flock",
+      "A murder",
+      "A gaggle",
+      "A parliament"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "A group of crows is traditionally called a 'murder'."
+  },
+  {
+    "id": "r1",
+    "category": "reptiles",
+    "level": 1,
+    "text": "What do snakes primarily use to smell their surroundings?",
+    "options": [
+      "Their nose",
+      "Their skin",
+      "Their tongue",
+      "Their eyes"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Snakes flick their forked tongues to collect airborne particles, which are then analyzed by the Jacobson's organ in the roof of their mouth."
+  },
+  {
+    "id": "r2",
+    "category": "reptiles",
+    "level": 1,
+    "text": "Which reptile is famous for its ability to change its skin color?",
+    "options": [
+      "Iguana",
+      "Gecko",
+      "Chameleon",
+      "Komodo Dragon"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Chameleons are well known for their ability to change color, which they use for communication, temperature regulation, and camouflage."
+  },
+  {
+    "id": "r3",
+    "category": "reptiles",
+    "level": 2,
+    "text": "What is the largest living reptile?",
+    "options": [
+      "Leatherback Sea Turtle",
+      "Komodo Dragon",
+      "Saltwater Crocodile",
+      "Anaconda"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "The saltwater crocodile is the largest living reptile, with males often reaching lengths of up to 6 meters (20 feet)."
+  },
+  {
+    "id": "r4",
+    "category": "reptiles",
+    "level": 2,
+    "text": "How do turtles regulate their body temperature?",
+    "options": [
+      "They sweat",
+      "They are warm-blooded",
+      "They are ectothermic (cold-blooded)",
+      "They shiver"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Turtles, like most reptiles, are ectothermic (cold-blooded), meaning they rely on external heat sources like the sun to regulate their body temperature."
+  },
+  {
+    "id": "s1",
+    "category": "sea-life",
+    "level": 1,
+    "text": "How many arms does an octopus typically have?",
+    "options": [
+      "Six",
+      "Eight",
+      "Ten",
+      "Twelve"
+    ],
+    "correctAnswerIndex": 1,
+    "explanation": "An octopus has eight arms, which are lined with suction cups."
+  },
+  {
+    "id": "s2",
+    "category": "sea-life",
+    "level": 1,
+    "text": "What do you call a large group of fish swimming together?",
+    "options": [
+      "A herd",
+      "A pack",
+      "A school",
+      "A swarm"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "A group of fish swimming together in a coordinated manner is called a school."
+  },
+  {
+    "id": "s3",
+    "category": "sea-life",
+    "level": 2,
+    "text": "Which sea creature is known to have three hearts?",
+    "options": [
+      "Shark",
+      "Dolphin",
+      "Octopus",
+      "Jellyfish"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "An octopus has three hearts: two branchial hearts that pump blood through the gills, and one systemic heart that pumps blood through the rest of the body."
+  },
+  {
+    "id": "s4",
+    "category": "sea-life",
+    "level": 2,
+    "text": "What is the primary diet of a baleen whale?",
+    "options": [
+      "Large fish",
+      "Squid",
+      "Krill and small plankton",
+      "Seaweed"
+    ],
+    "correctAnswerIndex": 2,
+    "explanation": "Baleen whales filter-feed on tiny crustaceans like krill and other small plankton using their baleen plates."
+  }
+]
