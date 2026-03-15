@@ -74,8 +74,8 @@ const DEFAULT_QUIZZES: QuizGame[] = [
     title: 'Animal Kingdom Mastery',
     description: 'Test your knowledge of the animal kingdom!',
     isDefault: true,
-    metadataUrl: '/metadata.bk.json',
-    questionsUrl: '/questions.bk.json',
+    metadataUrl: '/animal_kingdom_metadata.json',
+    questionsUrl: '/animal_kingdom_questions.json',
     theme: {
       from: 'from-emerald-400',
       to: 'to-teal-600',
@@ -84,11 +84,11 @@ const DEFAULT_QUIZZES: QuizGame[] = [
   },
   {
     id: 'aws-aif-c01',
-    title: 'AWS AI Practitioner',
+    title: 'AWS AI Practitioner (AIF-C01)',
     description: 'Practice for the AWS Certified AI Practitioner exam.',
     isDefault: true,
-    metadataUrl: '/metadata.json',
-    questionsUrl: '/questions.json',
+    metadataUrl: '/aws_ai_metadata.json',
+    questionsUrl: '/aws_ai_questions.json',
     theme: {
       from: 'from-orange-400',
       to: 'to-rose-600',
@@ -108,8 +108,22 @@ const CUSTOM_THEMES = [
 export default function App() {
   const [customQuizzes, setCustomQuizzes] = useLocalStorage<QuizGame[]>('quiz_customQuizzes_list', []);
   const [currentQuizId, setCurrentQuizId] = useLocalStorage<string | null>('quiz_currentQuizId_v2', null);
+  const [quizToDelete, setQuizToDelete] = useState<string | null>(null);
 
   const allQuizzes = [...DEFAULT_QUIZZES, ...customQuizzes];
+
+  const deleteQuizData = (id: string) => {
+    setCustomQuizzes(prev => prev.filter(q => q.id !== id));
+    // Clean up localStorage keys for this quiz
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(`quiz_${id}_`)) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(key => localStorage.removeItem(key));
+  };
 
   if (currentQuizId) {
     const quiz = allQuizzes.find(q => q.id === currentQuizId);
@@ -121,6 +135,7 @@ export default function App() {
       key={currentQuizId} 
       quiz={quiz} 
       onBack={() => setCurrentQuizId(null)} 
+      onDelete={deleteQuizData}
     />;
   }
 
@@ -139,15 +154,13 @@ export default function App() {
 
   const handleDeleteQuiz = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    if (window.confirm('Are you sure you want to delete this custom quiz? All progress will be lost.')) {
-      setCustomQuizzes(prev => prev.filter(q => q.id !== id));
-      // Clean up localStorage keys for this quiz
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(`quiz_${id}_`)) {
-          localStorage.removeItem(key);
-        }
-      }
+    setQuizToDelete(id);
+  };
+
+  const confirmDeleteQuiz = () => {
+    if (quizToDelete) {
+      deleteQuizData(quizToDelete);
+      setQuizToDelete(null);
     }
   };
 
@@ -195,7 +208,7 @@ export default function App() {
                     {!quiz.isDefault && (
                       <button
                         onClick={(e) => handleDeleteQuiz(e, quiz.id)}
-                        className="text-white/60 hover:text-white bg-black/10 hover:bg-black/20 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                        className="text-white/60 hover:text-white bg-black/10 hover:bg-black/20 p-2 rounded-full transition-all"
                         title="Delete Quiz"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -204,11 +217,16 @@ export default function App() {
                   </div>
                   <h3 className="font-bold text-2xl mb-2">{displayTitle}</h3>
                   <p className="text-white/90 text-sm mb-6 flex-1">{displayDesc}</p>
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/20">
-                    <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm shadow-sm">
-                      {quiz.isDefault ? 'Built-in' : 'Custom'}
-                    </span>
-                    <div className="flex items-center font-bold text-sm bg-white text-slate-900 px-4 py-2 rounded-full shadow-sm group-hover:shadow-md transition-all">
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/20 gap-2">
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm shadow-sm whitespace-nowrap">
+                        {quiz.isDefault ? 'Built-in' : 'Custom'}
+                      </span>
+                      <span className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/20 backdrop-blur-sm shadow-sm whitespace-nowrap">
+                        {quiz.isDefault ? 'Persistent' : 'User localStorage'}
+                      </span>
+                    </div>
+                    <div className="flex items-center font-bold text-sm bg-white text-slate-900 px-4 py-2 rounded-full shadow-sm group-hover:shadow-md transition-all shrink-0">
                       Play <Play className="w-4 h-4 ml-1 fill-current" />
                     </div>
                   </div>
@@ -231,6 +249,48 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {quizToDelete && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setQuizToDelete(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={e => e.stopPropagation()}
+              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl"
+            >
+              <div className="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4 mx-auto">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold text-center text-slate-800 mb-2">Delete Quiz?</h3>
+              <p className="text-center text-slate-600 mb-6">
+                Are you sure you want to delete this custom quiz? All progress will be lost.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setQuizToDelete(null)}
+                  className="flex-1 px-4 py-3 rounded-xl font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDeleteQuiz}
+                  className="flex-1 px-4 py-3 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 transition-colors"
+                >
+                  Delete
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -238,9 +298,10 @@ export default function App() {
 interface QuizAppProps {
   quiz: QuizGame;
   onBack: () => void;
+  onDelete?: (id: string) => void;
 }
 
-const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack }) => {
+const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack, onDelete }) => {
   const [isCustomData, setIsCustomData] = useLocalStorage<boolean>(`quiz_${quiz.id}_isCustomData`, !quiz.isDefault);
   const [questions, setQuestions] = useLocalStorage<Question[]>(`quiz_${quiz.id}_questions`, []);
   const [appMetadata, setAppMetadata] = useLocalStorage<AppMetadata>(`quiz_${quiz.id}_metadata`, {
@@ -701,7 +762,7 @@ const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack }) => {
       <div className="w-full max-w-md bg-white shadow-xl min-h-screen relative overflow-hidden flex flex-col">
         {/* Header */}
         <header className={`bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'} text-white p-4 flex items-center justify-between shadow-md z-10`}>
-          <div className="flex items-center gap-2 overflow-hidden">
+          <div className="flex items-center gap-2 min-w-0">
             {(currentLevel || showUploadScreen || currentCategory) ? (
               <button
                 onClick={() => {
@@ -786,7 +847,7 @@ const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack }) => {
         <main className="flex-1 overflow-y-auto p-4 md:p-6 relative">
           {!currentLevel && !showUploadScreen && pausedSession && (
             <div className="mb-6 p-4 bg-white border-2 border-slate-200 rounded-2xl flex items-center justify-between shadow-sm relative overflow-hidden">
-              <div className={`absolute inset-0 opacity-10 bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'}`}></div>
+              <div className={`absolute inset-0 opacity-10 pointer-events-none bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'}`}></div>
               <div className="relative z-10">
                 <h3 className="font-bold text-slate-800 flex items-center gap-2">
                   <Pause className="w-4 h-4" /> Quiz Paused
@@ -800,7 +861,7 @@ const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack }) => {
                   Question {pausedSession.questionIndex + 1} • {formatTime(pausedSession.elapsedTime)}
                 </p>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="relative z-10 flex flex-col gap-2">
                 <button 
                   onClick={resumeQuiz} 
                   className={`px-4 py-2 bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'} hover:opacity-90 text-white rounded-xl font-bold text-sm transition-opacity shadow-sm`}
@@ -875,19 +936,18 @@ const QuizApp: React.FC<QuizAppProps> = ({ quiz, onBack }) => {
                 </div>
 
                 <div className="mt-auto">
-                  <input
-                    type="file"
-                    accept=".json"
-                    className="hidden"
-                    ref={fileInputRef}
-                    onChange={handleFileUpload}
-                  />
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'} hover:opacity-90 transition-opacity shadow-sm active:scale-[0.98] flex items-center justify-center gap-2`}
+                  <label
+                    className={`w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r ${quiz.theme?.from || 'from-indigo-500'} ${quiz.theme?.to || 'to-indigo-600'} hover:opacity-90 transition-opacity shadow-sm active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer`}
                   >
                     <FileUp className="w-5 h-5" /> Explore File System
-                  </button>
+                    <input
+                      type="file"
+                      accept=".json"
+                      className="sr-only"
+                      ref={fileInputRef}
+                      onChange={handleFileUpload}
+                    />
+                  </label>
                 </div>
               </motion.div>
             ) : !currentCategory ? (
